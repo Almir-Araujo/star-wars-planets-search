@@ -1,8 +1,17 @@
 body {
+  background-color: black;
   box-sizing: border-box;
+  color: white;
   margin: 0;
   padding: 0;
-  background-color: black;
-  color: white;
+}
+
+table, td {
+  border: 1px solid;
+  border-style: ridge;
+}
+
+th {
+  background-color: goldenrod;
 }
 
