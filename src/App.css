@@ -1,14 +1,25 @@
 body {
-  background-color: black;
   box-sizing: border-box;
-  color: white;
   margin: 0;
+  background-color: black;
   padding: 0;
+  color: white;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  margin: 50px 0px;
 }
 
 table, td {
   border: 1px solid;
-  border-style: ridge;
+  border-style:ridge  ;
 }
 
 th {
