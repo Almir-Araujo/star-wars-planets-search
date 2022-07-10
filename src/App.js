@@ -1,12 +1,15 @@
 import React from 'react';
 import './App.css';
-import fetchPlants from './Services/starWarsPlantesAPI';
+import Table from './Components/Table';
+import Provider from './Context/StarWarsPlanetsProvider';
 
 function App() {
-  fetchPlants();
-
   return (
-    <span>Hello, App!!</span>
+    <main>
+      <Provider>
+        <Table />
+      </Provider>
+    </main>
   );
 }
 
