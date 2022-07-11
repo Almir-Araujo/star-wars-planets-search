@@ -17,6 +17,12 @@ header {
   justify-content: center;
 }
 
+section {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
 img {
   margin-top: 60px;
   width: 500px;
@@ -26,7 +32,7 @@ form {
   margin: 50px;
 }
 
-input {
+.search-input {
   background-color: white;
   font-size: larger;
   height: 50px;
@@ -40,7 +46,7 @@ table, td {
 }
 
 th {
-  background-color: rgb(255, 217, 0);
+  background-color: rgb(245, 210, 12);
   color: black;
 }
 

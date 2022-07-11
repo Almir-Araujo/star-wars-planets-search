@@ -16,11 +16,13 @@ function Header() {
     <div>
       <header>
         <img src={ StarWarsLogo } alt="StarWars Logo" />
+        <h1>Planets Search</h1>
         <form>
           <label htmlFor="search-input">
             <input
               name="search-input"
-              placeholder="Search the planet here"
+              className="search-input"
+              placeholder="Search here..."
               data-testid="name-filter"
               onChange={ handleChange }
             />
