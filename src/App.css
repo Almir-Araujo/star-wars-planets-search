@@ -6,6 +6,10 @@ body {
   color: white;
 }
 
+main {
+  background-image: url("https://starwarsblog.starwars.com/wp-content/uploads/2020/04/star-wars-backgrounds-25.jpg");
+}
+
 header {
   display: flex;
   flex-direction: column;
@@ -13,16 +17,30 @@ header {
   align-items: center;
 }
 
+img {
+  width: 500px;
+  margin-top: 60px;
+}
+
 form {
   margin: 50px 0px;
 }
 
+input {
+  width: 500px;
+  height: 50px;
+  background-color: white;
+  justify-content: center;
+  font-size: larger;
+}
+
 table, td {
   border: 1px solid;
-  border-style:ridge  ;
+  border-style:ridge;
 }
 
 th {
-  background-color: goldenrod;
+  background-color:rgb(255, 217, 0);
+  color: black;
 }
 

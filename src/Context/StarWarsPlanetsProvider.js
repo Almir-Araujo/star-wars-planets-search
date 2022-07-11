@@ -4,6 +4,7 @@ import StarWarsPlanetsContext from './StarWarsPlanetsContext';
 
 function StarWarsPlanetsProvider({ children }) {
   const [planetsInfo, setPlanetsInfo] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
 
   useEffect(() => {
     const ENDPOINT = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -23,6 +24,8 @@ function StarWarsPlanetsProvider({ children }) {
   const data = {
     data: planetsInfo,
     setPlanetsInfo,
+    searchInput,
+    setSearchInput,
   };
 
   return (
