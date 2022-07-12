@@ -1,11 +1,31 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import StarWarsContext from '../Context/StarWarsPlanetsContext';
 
 function Filters() {
+  const { setFilterByNumeric } = useContext(StarWarsContext);
+  const [state, setState] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: 0,
+  });
+
+  const handleChange = ({ target: { name, value } }) => {
+    setState((oldState) => ({ ...oldState, [name]: value }));
+  };
+
+  const handleSubmit = () => {
+    setFilterByNumeric(state);
+  };
+
   return (
     <section>
       <form>
-        <label htmlFor="column-filter">
-          <select name="column-filter" data-testid="column-filter">
+        <label htmlFor="column">
+          <select
+            name="column"
+            data-testid="column-filter"
+            onChange={ handleChange }
+          >
             <option value="population">Population</option>
             <option value="orbital_period">Orbital Period</option>
             <option value="diameter">Diameter</option>
@@ -13,17 +33,26 @@ function Filters() {
             <option value="surface_water">Surface Water</option>
           </select>
         </label>
-        <label htmlFor="comparison-filter">
-          <select name="comparison-filter" data-testid="comparison-filter">
-            <option value="bigger">Maior que</option>
-            <option value="smaller">Menor que</option>
-            <option value="equal">Igual a</option>
+        <label htmlFor="comparison">
+          <select
+            name="comparison"
+            data-testid="comparison-filter"
+            onChange={ handleChange }
+          >
+            <option value="maior que">Maior que</option>
+            <option value="menor que">Menor que</option>
+            <option value="igual a">Igual a</option>
           </select>
         </label>
-        <label htmlFor="value-filter">
-          <input type="number" name="value-filter" data-testid="value-filter" />
+        <label htmlFor="value">
+          <input
+            type="number"
+            name="value"
+            data-testid="value-filter"
+            onChange={ handleChange }
+          />
         </label>
-        <button type="button">Filtrar</button>
+        <button type="button" onClick={ handleSubmit }>Filtrar</button>
       </form>
     </section>
   );
