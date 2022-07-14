@@ -2,23 +2,7 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../Context/StarWarsPlanetsContext';
 
 function PlanetsTable() {
-  const { data, searchInput, filterByNumeric } = useContext(StarWarsContext);
-
-  // se, population, maior que e number => filtrar planetas que tenham essas características
-
-  // column === "population" && comparison === "maior que" && population > value
-
-  // column === "population" && comparison === "menor que" && population < value
-
-  // column === "population" && comparison === "igual a" && population === value
-
-  // column === "orbital_period" && comparison === "maior que" && orbital_period > value
-
-  // column === "orbital_period" && comparison === "menor que" && orbital_period < value
-
-  // column === "orbital_period" && comparison === "igual a" && orbital_period === value
-
-  // column === comparison > && column > value
+  const { data, searchInput } = useContext(StarWarsContext);
 
   return (
     <table>
