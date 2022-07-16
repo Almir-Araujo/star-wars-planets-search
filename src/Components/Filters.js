@@ -25,12 +25,18 @@ function Filters() {
             name="column"
             data-testid="column-filter"
             onChange={ handleChange }
+            value={ state.column }
           >
-            <option value="population">Population</option>
-            <option value="orbital_period">Orbital Period</option>
-            <option value="diameter">Diameter</option>
-            <option value="rotation_period">Rotation Period</option>
-            <option value="surface_water">Surface Water</option>
+            <option value="population" name="population">population</option>
+            <option value="orbital_period" name="orbital_period">orbital_period</option>
+            <option value="diameter" name="diameter">diameter</option>
+            <option
+              value="rotation_period"
+              name="rotation_period"
+            >
+              rotation_period
+            </option>
+            <option value="surface_water" name="surface_water">surface_water</option>
           </select>
         </label>
         <label htmlFor="comparison">
@@ -38,10 +44,11 @@ function Filters() {
             name="comparison"
             data-testid="comparison-filter"
             onChange={ handleChange }
+            value={ state.comparison }
           >
-            <option value="maior que">Maior que</option>
-            <option value="menor que">Menor que</option>
-            <option value="igual a">Igual a</option>
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
           </select>
         </label>
         <label htmlFor="value">
@@ -50,9 +57,16 @@ function Filters() {
             name="value"
             data-testid="value-filter"
             onChange={ handleChange }
+            value={ state.value }
           />
         </label>
-        <button type="button" onClick={ handleSubmit }>Filtrar</button>
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ handleSubmit }
+        >
+          Filtrar
+        </button>
       </form>
     </section>
   );
