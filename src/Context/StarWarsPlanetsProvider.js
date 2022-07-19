@@ -5,7 +5,7 @@ import StarWarsPlanetsContext from './StarWarsPlanetsContext';
 function StarWarsPlanetsProvider({ children }) {
   const [planetsInfo, setPlanetsInfo] = useState([]);
   const [searchInput, setSearchInput] = useState('');
-  const [planets, setPlanets] = useState();
+  const [planets, setPlanets] = useState([]);
   const [filterByNumeric, setFilterByNumeric] = useState({ filterByNumericValues: [{
     column: 'population',
     comparison: 'maior que',
@@ -37,30 +37,24 @@ function StarWarsPlanetsProvider({ children }) {
     searchFilter();
   }, [planetsInfo, searchInput]);
 
-  // useEffect(() => {
-  //   let planetsUpdated = [];
-  //   const numericFilter = () => {
-  //     const filters = filterByNumeric;
-  //     if (filters.column !== undefined && filters.comparison === 'maior que') {
-  //       planetsUpdated = planetsInfo
-  //         .filter((planet) => parseInt(planet[filters.column], 10)
-  //         > parseInt(filters.value, 10));
-  //     }
-  //     if (filters.column !== undefined && filters.comparison === 'menor que') {
-  //       planetsUpdated = planetsInfo
-  //         .filter((planet) => parseInt(planet[filters.column], 10)
-  //         < parseInt(filters.value, 10));
-  //     }
-  //     if (filters.column !== undefined && filters.comparison === 'igual a') {
-  //       planetsUpdated = planetsInfo
-  //         .filter((planet) => parseInt(planet[filters.column], 10)
-  //         === parseInt(filters.value, 10));
-  //     }
-  //     setPlanets((prevState) => ({ ...prevState, planets: planetsUpdated }));
-  //     console.log(planetsUpdated);
-  //   };
-  //   numericFilter();
-  // }, [filterByNumeric, planetsInfo]);
+  useEffect(() => {
+    const filters = filterByNumeric;
+    if (filters.column !== undefined && filters.comparison === 'maior que') {
+      setPlanets(planets
+        .filter((planet) => parseInt(planet[filters.column], 10)
+          > parseInt(filters.value, 10)));
+    }
+    if (filters.column !== undefined && filters.comparison === 'menor que') {
+      setPlanets(planets
+        .filter((planet) => parseInt(planet[filters.column], 10)
+          < parseInt(filters.value, 10)));
+    }
+    if (filters.column !== undefined && filters.comparison === 'igual a') {
+      setPlanets(planets
+        .filter((planet) => parseInt(planet[filters.column], 10)
+          === parseInt(filters.value, 10)));
+    }
+  }, [filterByNumeric, planets]);
 
   const context = {
     data: planetsInfo,
