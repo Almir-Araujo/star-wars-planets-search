@@ -3,7 +3,6 @@ import StarWarsContext from '../Context/StarWarsPlanetsContext';
 
 function PlanetsTable() {
   const { planets } = useContext(StarWarsContext);
-  console.log(planets);
   return (
     <table>
       <thead>

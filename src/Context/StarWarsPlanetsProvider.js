@@ -37,28 +37,30 @@ function StarWarsPlanetsProvider({ children }) {
     searchFilter();
   }, [planetsInfo, searchInput]);
 
-  useEffect(() => {
-    const numericFilter = () => {
-      const filters = filterByNumeric;
-      if (filters.column !== undefined && filters.comparison === 'maior que') {
-        setPlanets(planetsInfo
-          .filter((planet) => parseInt(planet[filters.column], 10)
-          > parseInt(filters.value, 10)));
-        console.log(filters.column, filters.comparison, filters.value);
-      }
-      if (filters.column !== undefined && filters.comparison === 'menor que') {
-        setPlanets(planetsInfo
-          .filter((planet) => parseInt(planet[filters.column], 10)
-          < parseInt(filters.value, 10)));
-      }
-      if (filters.column !== undefined && filters.comparison === 'igual a') {
-        setPlanets(planetsInfo
-          .filter((planet) => parseInt(planet[filters.column], 10)
-          === parseInt(filters.value, 10)));
-      }
-    };
-    numericFilter();
-  }, [filterByNumeric, planetsInfo]);
+  // useEffect(() => {
+  //   let planetsUpdated = [];
+  //   const numericFilter = () => {
+  //     const filters = filterByNumeric;
+  //     if (filters.column !== undefined && filters.comparison === 'maior que') {
+  //       planetsUpdated = planetsInfo
+  //         .filter((planet) => parseInt(planet[filters.column], 10)
+  //         > parseInt(filters.value, 10));
+  //     }
+  //     if (filters.column !== undefined && filters.comparison === 'menor que') {
+  //       planetsUpdated = planetsInfo
+  //         .filter((planet) => parseInt(planet[filters.column], 10)
+  //         < parseInt(filters.value, 10));
+  //     }
+  //     if (filters.column !== undefined && filters.comparison === 'igual a') {
+  //       planetsUpdated = planetsInfo
+  //         .filter((planet) => parseInt(planet[filters.column], 10)
+  //         === parseInt(filters.value, 10));
+  //     }
+  //     setPlanets((prevState) => ({ ...prevState, planets: planetsUpdated }));
+  //     console.log(planetsUpdated);
+  //   };
+  //   numericFilter();
+  // }, [filterByNumeric, planetsInfo]);
 
   const context = {
     data: planetsInfo,
