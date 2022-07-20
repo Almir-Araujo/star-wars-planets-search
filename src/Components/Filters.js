@@ -20,11 +20,11 @@ function Filters() {
     }
     if (state.column !== undefined && state.comparison === 'menor que') {
       setPlanets(planets.filter((planet) => parseInt(planet[state.column], 10)
-          < parseInt(state.value, 10)));
+      < parseInt(state.value, 10)));
     }
     if (state.column !== undefined && state.comparison === 'igual a') {
       setPlanets(planets.filter((planet) => parseInt(planet[state.column], 10)
-        === parseInt(state.value, 10)));
+      === parseInt(state.value, 10)));
     }
   };
 
