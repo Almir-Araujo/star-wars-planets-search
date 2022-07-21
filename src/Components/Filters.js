@@ -1,12 +1,25 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import StarWarsContext from '../Context/StarWarsPlanetsContext';
+
+const COLUMNS_INITIAL_STATE = ['population',
+  'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
 function Filters() {
   const { setPlanets, planets } = useContext(StarWarsContext);
+  // const [isPopulationUsed, setIsPopulationUsed] = useState(false);
+  // const [isOrbitalUsed, setIsOrbitalUsed] = useState(false);
+  // const [isDiameterUsed, setIsDiameterUsed] = useState(false);
+  // const [isRotationUsed, setIsRotationUsed] = useState(false);
+  // const [isSurfaceUsed, setIsSurfaceUsed] = useState(false);
+  const [columns, setColumns] = useState(COLUMNS_INITIAL_STATE);
   const [state, setState] = useState({
     column: 'population',
     comparison: 'maior que',
     value: 0,
+  });
+
+  useEffect(() => {
+    const newArray = columns.filter((item) => item !== state.column);
   });
 
   const handleChange = ({ target: { name, value } }) => {
@@ -38,16 +51,8 @@ function Filters() {
             onChange={ handleChange }
             value={ state.column }
           >
-            <option value="population" name="population">population</option>
-            <option value="orbital_period" name="orbital_period">orbital_period</option>
-            <option value="diameter" name="diameter">diameter</option>
-            <option
-              value="rotation_period"
-              name="rotation_period"
-            >
-              rotation_period
-            </option>
-            <option value="surface_water" name="surface_water">surface_water</option>
+            { columns
+              .map((filter) => <option key={ filter } value={ filter }>{filter}</option>)}
           </select>
         </label>
         <label htmlFor="comparison">
