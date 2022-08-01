@@ -6,38 +6,40 @@ const COLUMNS_INITIAL_STATE = ['population',
 
 function Filters() {
   const { setPlanets, planets } = useContext(StarWarsContext);
-  // const [isPopulationUsed, setIsPopulationUsed] = useState(false);
-  // const [isOrbitalUsed, setIsOrbitalUsed] = useState(false);
-  // const [isDiameterUsed, setIsDiameterUsed] = useState(false);
-  // const [isRotationUsed, setIsRotationUsed] = useState(false);
-  // const [isSurfaceUsed, setIsSurfaceUsed] = useState(false);
   const [columns, setColumns] = useState(COLUMNS_INITIAL_STATE);
+  const [column, setColumn] = useState('population');
   const [state, setState] = useState({
-    column: 'population',
     comparison: 'maior que',
     value: 0,
   });
 
   useEffect(() => {
-    const newArray = columns.filter((item) => item !== state.column);
-  });
+    setColumn(columns[0]);
+  }, [columns]);
+
+  const handleColumn = ({ target }) => {
+    setColumn(target.value);
+  };
 
   const handleChange = ({ target: { name, value } }) => {
     setState((oldState) => ({ ...oldState, [name]: value }));
   };
 
   const handleSubmit = () => {
-    if (state.column !== undefined && state.comparison === 'maior que') {
-      setPlanets(planets.filter((planet) => parseInt(planet[state.column], 10)
+    if (column !== undefined && state.comparison === 'maior que') {
+      setPlanets(planets.filter((planet) => parseInt(planet[column], 10)
       > parseInt(state.value, 10)));
+      setColumns(columns.filter((item) => item !== column));
     }
-    if (state.column !== undefined && state.comparison === 'menor que') {
-      setPlanets(planets.filter((planet) => parseInt(planet[state.column], 10)
+    if (column !== undefined && state.comparison === 'menor que') {
+      setPlanets(planets.filter((planet) => parseInt(planet[column], 10)
       < parseInt(state.value, 10)));
+      setColumns(columns.filter((item) => item !== column));
     }
-    if (state.column !== undefined && state.comparison === 'igual a') {
-      setPlanets(planets.filter((planet) => parseInt(planet[state.column], 10)
+    if (column !== undefined && state.comparison === 'igual a') {
+      setPlanets(planets.filter((planet) => parseInt(planet[column], 10)
       === parseInt(state.value, 10)));
+      setColumns(columns.filter((item) => item !== column));
     }
   };
 
@@ -48,7 +50,7 @@ function Filters() {
           <select
             name="column"
             data-testid="column-filter"
-            onChange={ handleChange }
+            onChange={ handleColumn }
             value={ state.column }
           >
             { columns
