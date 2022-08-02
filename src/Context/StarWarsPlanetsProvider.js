@@ -5,6 +5,7 @@ import StarWarsPlanetsContext from './StarWarsPlanetsContext';
 function StarWarsPlanetsProvider({ children }) {
   const [planetsInfo, setPlanetsInfo] = useState([]);
   const [searchInput, setSearchInput] = useState('');
+  const [savedFilters, setSavedFilters] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [filterByNumeric, setFilterByNumeric] = useState({ filterByNumericValues: [{
     column: 'population',
@@ -31,7 +32,6 @@ function StarWarsPlanetsProvider({ children }) {
     const searchFilter = () => {
       const search = planetsInfo.filter((planet) => planet.name.toLowerCase()
         .includes(searchInput.toLowerCase()));
-      console.log(search);
       setPlanets(search);
     };
     searchFilter();
@@ -62,8 +62,11 @@ function StarWarsPlanetsProvider({ children }) {
     setSearchInput,
     planets,
     setPlanets,
+    planetsInfo,
     filterByNumericValues: filterByNumeric,
     setFilterByNumeric,
+    savedFilters,
+    setSavedFilters,
   };
 
   return (

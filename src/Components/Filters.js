@@ -5,7 +5,8 @@ const COLUMNS_INITIAL_STATE = ['population',
   'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
 function Filters() {
-  const { setPlanets, planets } = useContext(StarWarsContext);
+  const { setPlanets, planets,
+    savedFilters, setSavedFilters, planetsInfo } = useContext(StarWarsContext);
   const [columns, setColumns] = useState(COLUMNS_INITIAL_STATE);
   const [column, setColumn] = useState('population');
   const [state, setState] = useState({
@@ -25,21 +26,35 @@ function Filters() {
     setState((oldState) => ({ ...oldState, [name]: value }));
   };
 
+  const handleRemove = ({ target }) => {
+    const filterCliked = target.innerText;
+    setSavedFilters(savedFilters.filter((item) => item !== filterCliked));
+    const columnFilterClicked = filterCliked.split(' ')[0];
+    setColumns((prevState) => [...prevState, columnFilterClicked]);
+    console.log((savedFilters.includes(filterCliked)));
+    console.log(planetsInfo.filter((planet) => ));
+    //   planets.filter((planet) => filterCliked.split(' ')[1])
+    // }
+  };
+
   const handleSubmit = () => {
     if (column !== undefined && state.comparison === 'maior que') {
       setPlanets(planets.filter((planet) => parseInt(planet[column], 10)
       > parseInt(state.value, 10)));
       setColumns(columns.filter((item) => item !== column));
+      setSavedFilters((oldState) => [...oldState, `${column} maior que ${state.value}`]);
     }
     if (column !== undefined && state.comparison === 'menor que') {
       setPlanets(planets.filter((planet) => parseInt(planet[column], 10)
       < parseInt(state.value, 10)));
       setColumns(columns.filter((item) => item !== column));
+      setSavedFilters(`${column} maior que ${state.value}`);
     }
     if (column !== undefined && state.comparison === 'igual a') {
       setPlanets(planets.filter((planet) => parseInt(planet[column], 10)
       === parseInt(state.value, 10)));
       setColumns(columns.filter((item) => item !== column));
+      setSavedFilters(`${column} maior que ${state.value}`);
     }
   };
 
@@ -51,9 +66,8 @@ function Filters() {
             name="column"
             data-testid="column-filter"
             onChange={ handleColumn }
-            value={ state.column }
           >
-            { columns
+            {columns
               .map((filter) => <option key={ filter } value={ filter }>{filter}</option>)}
           </select>
         </label>
@@ -86,6 +100,16 @@ function Filters() {
           Filtrar
         </button>
       </form>
+      {!savedFilters ? '' : savedFilters
+        .map((filter, index) => (
+          <button
+            data-testid="filter"
+            type="button"
+            key={ index }
+            onClick={ handleRemove }
+          >
+            {filter}
+          </button>))}
     </section>
   );
 }
