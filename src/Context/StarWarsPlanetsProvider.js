@@ -7,11 +7,12 @@ function StarWarsPlanetsProvider({ children }) {
   const [searchInput, setSearchInput] = useState('');
   const [savedFilters, setSavedFilters] = useState([]);
   const [planets, setPlanets] = useState([]);
-  const [filterByNumeric, setFilterByNumeric] = useState({ filterByNumericValues: [{
-    column: 'population',
-    comparison: 'maior que',
-    value: 0,
-  }] });
+  const [filterByNumeric, setFilterByNumeric] = useState([]);
+  const [columns, setColumns] = useState(['population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water']);
 
   useEffect(() => {
     const ENDPOINT = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -37,24 +38,24 @@ function StarWarsPlanetsProvider({ children }) {
     searchFilter();
   }, [planetsInfo, searchInput]);
 
-  useEffect(() => {
-    const filters = filterByNumeric;
-    if (filters.column !== undefined && filters.comparison === 'maior que') {
-      setPlanets(planets
-        .filter((planet) => parseInt(planet[filters.column], 10)
-          > parseInt(filters.value, 10)));
-    }
-    if (filters.column !== undefined && filters.comparison === 'menor que') {
-      setPlanets(planets
-        .filter((planet) => parseInt(planet[filters.column], 10)
-          < parseInt(filters.value, 10)));
-    }
-    if (filters.column !== undefined && filters.comparison === 'igual a') {
-      setPlanets(planets
-        .filter((planet) => parseInt(planet[filters.column], 10)
-          === parseInt(filters.value, 10)));
-    }
-  }, [filterByNumeric, planets]);
+  // useEffect(() => {
+  //   const filters = filterByNumeric;
+  //   if (filters.column !== undefined && filters.comparison === 'maior que') {
+  //     setPlanets(planets
+  //       .filter((planet) => parseInt(planet[filters.column], 10)
+  //         > parseInt(filters.value, 10)));
+  //   }
+  //   if (filters.column !== undefined && filters.comparison === 'menor que') {
+  //     setPlanets(planets
+  //       .filter((planet) => parseInt(planet[filters.column], 10)
+  //         < parseInt(filters.value, 10)));
+  //   }
+  //   if (filters.column !== undefined && filters.comparison === 'igual a') {
+  //     setPlanets(planets
+  //       .filter((planet) => parseInt(planet[filters.column], 10)
+  //         === parseInt(filters.value, 10)));
+  //   }
+  // }, [filterByNumeric, planets]);
 
   const context = {
     data: planetsInfo,
@@ -65,6 +66,8 @@ function StarWarsPlanetsProvider({ children }) {
     planetsInfo,
     filterByNumericValues: filterByNumeric,
     setFilterByNumeric,
+    columns,
+    setColumns,
     savedFilters,
     setSavedFilters,
   };
