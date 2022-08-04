@@ -5,7 +5,6 @@ import StarWarsPlanetsContext from './StarWarsPlanetsContext';
 function StarWarsPlanetsProvider({ children }) {
   const [planetsInfo, setPlanetsInfo] = useState([]);
   const [searchInput, setSearchInput] = useState('');
-  const [savedFilters, setSavedFilters] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [filterByNumeric, setFilterByNumeric] = useState([]);
   const [columns, setColumns] = useState(['population',
@@ -68,8 +67,6 @@ function StarWarsPlanetsProvider({ children }) {
     setFilterByNumeric,
     columns,
     setColumns,
-    savedFilters,
-    setSavedFilters,
   };
 
   return (

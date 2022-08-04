@@ -2,14 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import StarWarsContext from '../Context/StarWarsPlanetsContext';
 
 function Filters() {
-  const { planets,
-    setPlanets,
-    savedFilters,
-    setSavedFilters,
+  const { setPlanets,
     columns,
     setColumns,
     planetsInfo } = useContext(StarWarsContext);
 
+  const [savedFilters, setSavedFilters] = useState([]);
   const [filters, setFilters] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -24,32 +22,51 @@ function Filters() {
     setFilters((oldState) => ({ ...oldState, [name]: value }));
   };
 
-  const handleSubmit = () => {
-    if (filters.comparison === 'maior que') {
-      setPlanets(planets
-        .filter((planet) => parseInt(planet[filters.column], 10)
-          > parseInt(filters.value, 10)));
-      setColumns(columns.filter((item) => item !== filters.column));
-    }
-    if (filters.comparison === 'menor que') {
-      setPlanets(planets
-        .filter((planet) => parseInt(planet[filters.column], 10)
-           < parseInt(filters.value, 10)));
-      setColumns(columns.filter((item) => item !== filters.column));
-    }
-    if (filters.comparison === 'igual a') {
-      setPlanets(planets
-        .filter((planet) => parseInt(planet[filters.column], 10)
-          === parseInt(filters.value, 10)));
-      setColumns(columns.filter((item) => item !== filters.column));
-    }
+  const filteringPlanets = () => {
+    let filterPlanets = [...planetsInfo];
+    if (savedFilters.length === 0) setPlanets(planetsInfo);
+    savedFilters.forEach(({ column, comparison, value }) => {
+      filterPlanets = filterPlanets.filter((planet) => {
+        if (comparison === 'maior que') {
+          return parseInt(planet[column], 10)
+        > parseInt(value, 10);
+        }
+        if (comparison === 'menor que') {
+          return parseInt(planet[column], 10)
+        < parseInt(value, 10);
+        }
+        return parseInt(planet[column], 10) === parseInt(value, 10);
+      });
+      setPlanets(filterPlanets);
+    });
   };
 
-  const handleRemove = ({ target }) => {
-    const filterCliked = target.innerText;
-    setSavedFilters(savedFilters.filter((item) => item !== filterCliked));
-    const columnFilterClicked = filterCliked.split(' ')[0];
-    setColumns((prevState) => [...prevState, columnFilterClicked]);
+  useEffect(() => {
+    filteringPlanets();
+  }, [savedFilters]);
+
+  const handleSubmit = () => {
+    setSavedFilters((prevState) => [...prevState, {
+      column: filters.column,
+      comparison: filters.comparison,
+      value: filters.value }]);
+    setColumns(columns.filter((column) => column !== filters.column));
+  };
+
+  const handleRemove = (filterCliked) => {
+    setColumns([...columns, filterCliked.column]);
+    setSavedFilters(savedFilters
+      .filter((selected) => selected !== filterCliked));
+  };
+
+  const handleRemoveAllFilters = () => {
+    setSavedFilters([]);
+    setPlanets(planetsInfo);
+    setColumns(['population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water']);
   };
 
   return (
@@ -63,7 +80,13 @@ function Filters() {
             value={ filters.column }
           >
             {columns
-              .map((filter) => <option key={ filter } value={ filter }>{filter}</option>)}
+              .map((filter, index) => (
+                <option
+                  key={ index }
+                  value={ filter }
+                >
+                  {filter}
+                </option>))}
           </select>
         </label>
         <label htmlFor="comparison">
@@ -97,14 +120,23 @@ function Filters() {
       </form>
       {!savedFilters ? '' : savedFilters
         .map((filter, index) => (
-          <button
-            data-testid="filter"
-            type="button"
-            key={ index }
-            onClick={ handleRemove }
-          >
-            {filter}
-          </button>))}
+          <div key={ index } data-testid="filter">
+            <p>{`${filter.column} ${filter.comparison} ${filter.value}`}</p>
+            <button
+              type="button"
+              key={ index }
+              onClick={ () => handleRemove(filter) }
+            >
+              X
+            </button>
+          </div>))}
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ handleRemoveAllFilters }
+      >
+        Remove all filters
+      </button>
     </section>
   );
 }
