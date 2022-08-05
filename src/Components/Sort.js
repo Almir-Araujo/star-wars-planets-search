@@ -1,20 +1,46 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import StarWarsContext from '../Context/StarWarsPlanetsContext';
 
 function Sort() {
-  const { order, setOrder, columns, setPlanets } = useContext(StarWarsContext);
+  const {
+    planets,
+    setPlanets,
+  } = useContext(StarWarsContext);
 
-  const handleChange = ({ target: { name, value } }) => {
-    setOrder((oldState) => ({ ...oldState, [name]: value }));
-  };
+  const [column, setColumn] = useState('population');
+  const [sort, setSort] = useState('ASC');
+  const [sortColumns] = useState(['population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water']);
 
   const handleSortButton = () => {
-    if (order === 'ASC') {
-      setPlanets();
+    setSort({
+      order: {
+        column,
+        sort,
+      },
+    });
+
+    const filterUnknownPopulation = planets
+      .filter((planet) => planet[column] !== 'unknown');
+    if (sort === 'ASC') {
+      return setPlanets(filterUnknownPopulation
+        .sort((a, b) => Number(a[column]) - Number(b[column])));
     }
-    if (order === 'DESC') {
-      setPlanets();
+    if (sort === 'DESC') {
+      return setPlanets(filterUnknownPopulation
+        .sort((a, b) => Number(b[column]) - Number(a[column])));
     }
+  };
+
+  const handleSort = ({ target }) => {
+    setSort(target.value);
+  };
+
+  const handleColumn = ({ target }) => {
+    setColumn(target.value);
   };
 
   return (
@@ -22,8 +48,8 @@ function Sort() {
       <form>
         <label htmlFor="column-sort">
           Ordenar
-          <select data-testid="column-sort" onChange={ handleChange }>
-            { columns.map((filter, index) => (
+          <select data-testid="column-sort" onChange={ handleColumn }>
+            { sortColumns.map((filter, index) => (
               <option key={ index }>{ filter }</option>
             )) }
           </select>
@@ -35,7 +61,7 @@ function Sort() {
             name="sort"
             data-testid="column-sort-input-asc"
             value="ASC"
-            onChange={ handleChange }
+            onChange={ handleSort }
           />
         </label>
         <label htmlFor="column-sort-input-asc">
@@ -46,13 +72,13 @@ function Sort() {
             id=""
             data-testid="column-sort-input-desc"
             value="DESC"
-            onChange={ handleChange }
+            onChange={ handleSort }
           />
         </label>
         <button
           type="button"
           data-testid="column-sort-button"
-          onClick={ handle }
+          onClick={ handleSortButton }
         >
           Ordenar
         </button>
