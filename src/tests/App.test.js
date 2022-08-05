@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import App from '../App';
 import userEvent from '@testing-library/user-event';
 
-describe('Star Wars Planets Search Application Tests - HEADER', () =>{
+describe('Star Wars Planets Search Application Tests', () =>{
 
   test('1. The elements in Header Component', () => {
     render(<App />);
@@ -27,24 +27,18 @@ describe('Star Wars Planets Search Application Tests - HEADER', () =>{
     expect(columnFilter).toBeInTheDocument();
 
     userEvent.selectOptions(columnFilter, 'population')
-    // userEvent.selectOptions(columnFilter, 'orbital_period')
-    // userEvent.selectOptions(columnFilter, 'diameter')
-    // userEvent.selectOptions(columnFilter, 'rotation_period')
-    // userEvent.selectOptions(columnFilter, 'surface_water')
 
     const comparisonFilter = screen.getByTestId('comparison-filter')
     expect(comparisonFilter).toBeInTheDocument()
 
     userEvent.selectOptions(comparisonFilter, 'maior que')
-    // userEvent.selectOptions(comparisonFilter, 'menor que')
-    // userEvent.selectOptions(comparisonFilter, 'igual a')
 
     const inputValue = screen.getByTestId('value-filter');
     const number = 100;
     userEvent.type(inputValue, number)
 
 
-    const filterButton = screen.getByRole('button')
+    const filterButton = screen.getByTestId('button-filter')
     expect(filterButton).toBeInTheDocument()
 
     expect(screen.getAllByRole('option').length).toBe(8)
@@ -52,5 +46,55 @@ describe('Star Wars Planets Search Application Tests - HEADER', () =>{
     userEvent.click(filterButton)
     expect(screen.getAllByRole('table').length).toBe(1)
 
+    const removeFilters = screen.getByTestId('button-remove-filters')
+    expect(removeFilters).toBeInTheDocument()
+
   });
+
+  test('3. Population and maior que', async () => {
+    render(<App />)
+
+    const removeFiltersButton =  screen.getByTestId('button-remove-filters')
+    const filterButton = screen.getByTestId('button-filter')
+    const filterColumn = screen.getByTestId('column-filter')
+    const filterComparison = screen.getByTestId('comparison-filter')
+    const inputValue = screen.getByTestId('value-filter');
+
+    userEvent.selectOptions(filterColumn, 'population')
+    userEvent.selectOptions(filterComparison, 'maior que')
+    userEvent.type(inputValue, 100)
+
+    userEvent.click(filterButton)
+    const planets = await screen.findAllByTestId('planet-name')
+    expect(planets).toHaveLength(10)
+    expect(filterColumn.children.length).toBe(4)
+
+    const filterClicked = screen.getByTestId('filter')
+
+    userEvent.click(removeFiltersButton)
+    expect(filterClicked).not.toBeInTheDocument()
+
+  });
+
+   test('4. Columns filters', async () => {
+     render(<App />)
+
+     const filterButton = await screen.findByTestId('button-filter')
+     const filterColumn = await screen.findByTestId('column-filter')
+     const filterComparison = await screen.findByTestId('comparison-filter')
+     const inputValue = screen.findByTestId('value-filter');
+     
+     userEvent.selectOptions(filterColumn, 'orbital_period')
+     userEvent.selectOptions(filterComparison, 'igual a')
+     userEvent.type(inputValue, 304)
+     userEvent.click(filterButton)
+
+     const tatooine = await screen.findByText(/tatooine/i)
+     const alderaan =  screen.getByText(/alderaan/i)
+
+     expect(tatooine).toBeInTheDocument()
+     await waitFor(expect(alderaan).not.toBeInTheDocument())
+
+   });
+  
 })

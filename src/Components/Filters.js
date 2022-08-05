@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import StarWarsContext from '../Context/StarWarsPlanetsContext';
+import Sort from './Sort';
 
 function Filters() {
   const { setPlanets,
@@ -22,7 +23,7 @@ function Filters() {
     setFilters((oldState) => ({ ...oldState, [name]: value }));
   };
 
-  const filteringPlanets = () => {
+  const filteringPlanets = () => { // Refatoração após participação na mentoria 03/08 com ajuda da Lily
     let filterPlanets = [...planetsInfo];
     if (savedFilters.length === 0) setPlanets(planetsInfo);
     savedFilters.forEach(({ column, comparison, value }) => {
@@ -137,6 +138,7 @@ function Filters() {
       >
         Remove all filters
       </button>
+      <Sort />
     </section>
   );
 }

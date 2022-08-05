@@ -7,6 +7,8 @@ function StarWarsPlanetsProvider({ children }) {
   const [searchInput, setSearchInput] = useState('');
   const [planets, setPlanets] = useState([]);
   const [filterByNumeric, setFilterByNumeric] = useState([]);
+  const [order, setOrder] = useState({ column: 'population', sort: 'ASC' });
+  const [isOrder, setIsOrder] = useState(false);
   const [columns, setColumns] = useState(['population',
     'orbital_period',
     'diameter',
@@ -67,6 +69,10 @@ function StarWarsPlanetsProvider({ children }) {
     setFilterByNumeric,
     columns,
     setColumns,
+    order,
+    setOrder,
+    isOrder,
+    setIsOrder,
   };
 
   return (
