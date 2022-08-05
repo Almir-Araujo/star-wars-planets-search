@@ -1,21 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import StarWarsContext from '../Context/StarWarsPlanetsContext';
 
 function PlanetsTable() {
-  const { planets, setPlanets, planetsInfo } = useContext(StarWarsContext);
-
-  const ONE = 1;
-  const MINUSONE = -1;
-
-  useEffect(() => {
-    const orderPlanets = planetsInfo.sort((a, b) => {
-      if (a.name > b.name) return ONE;
-      if (a.name < b.name) return MINUSONE;
-      return 0;
-    });
-    setPlanets(orderPlanets);
-    console.log(orderPlanets);
-  }, []);
+  const { planets } = useContext(StarWarsContext);
 
   return (
     <table>

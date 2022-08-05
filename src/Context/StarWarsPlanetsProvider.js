@@ -32,9 +32,15 @@ function StarWarsPlanetsProvider({ children }) {
 
   useEffect(() => {
     const searchFilter = () => {
+      const ONE = 1;
+      const MINUSONE = -1;
       const search = planetsInfo.filter((planet) => planet.name.toLowerCase()
         .includes(searchInput.toLowerCase()));
-      setPlanets(search);
+      setPlanets(search.sort((a, b) => {
+        if (a.name > b.name) return ONE;
+        if (a.name < b.name) return MINUSONE;
+        return 0;
+      }));
     };
     searchFilter();
   }, [planetsInfo, searchInput]);
