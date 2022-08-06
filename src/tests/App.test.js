@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react';
 import App from '../App';
 import userEvent from '@testing-library/user-event';
 
+
+
 describe('Star Wars Planets Search Application Tests', () =>{
 
   test('1. The elements in Header Component', () => {
@@ -41,8 +43,6 @@ describe('Star Wars Planets Search Application Tests', () =>{
     const filterButton = screen.getByTestId('button-filter')
     expect(filterButton).toBeInTheDocument()
 
-    expect(screen.getAllByRole('option').length).toBe(8)
-
     userEvent.click(filterButton)
     expect(screen.getAllByRole('table').length).toBe(1)
 
@@ -76,7 +76,7 @@ describe('Star Wars Planets Search Application Tests', () =>{
 
   });
 
-   test('4. Columns filters', async () => {
+   test('4. Orbital_period filter igual', async () => {
      render(<App />)
 
      const filterButton = await screen.findByTestId('button-filter')
@@ -90,11 +90,10 @@ describe('Star Wars Planets Search Application Tests', () =>{
      userEvent.click(filterButton)
 
      const tatooine = await screen.findByText(/tatooine/i)
-     const alderaan =  screen.getByText(/alderaan/i)
+     const alderaan = screen.getByText(/alderaan/i)
 
      expect(tatooine).toBeInTheDocument()
-     await waitFor(expect(alderaan).not.toBeInTheDocument())
-
+     expect(alderaan).not.toBeInTheDocument() 
    });
   
 })
