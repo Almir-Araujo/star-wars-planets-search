@@ -2,8 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from '../App';
 import userEvent from '@testing-library/user-event';
-
-
+import testData from '../../cypress/mocks/testData'
 
 describe('Star Wars Planets Search Application Tests', () =>{
 
@@ -51,7 +50,12 @@ describe('Star Wars Planets Search Application Tests', () =>{
 
   });
 
-  test('3. Population and maior que', async () => {
+  test('3. Filter by Population and maior que', async () => {
+    jest.spyOn(global, 'fetch').mockImplementation(async () => {
+      return { json: async() => {
+        return testData;
+      } }
+    });
     render(<App />)
 
     const removeFiltersButton =  screen.getByTestId('button-remove-filters')
@@ -76,24 +80,65 @@ describe('Star Wars Planets Search Application Tests', () =>{
 
   });
 
-   test('4. Orbital_period filter igual', async () => {
+   test('4. Filter by Orbital_period filter igual', async () => {
+    jest.spyOn(global, 'fetch').mockImplementation(async () => {
+      return { json: async() => {
+        return testData;
+      } }
+    });
+
      render(<App />)
 
      const filterButton = await screen.findByTestId('button-filter')
      const filterColumn = await screen.findByTestId('column-filter')
      const filterComparison = await screen.findByTestId('comparison-filter')
-     const inputValue = screen.findByTestId('value-filter');
+     const inputValue = await screen.findByTestId('value-filter');
      
      userEvent.selectOptions(filterColumn, 'orbital_period')
      userEvent.selectOptions(filterComparison, 'igual a')
-     userEvent.type(inputValue, 304)
+     userEvent.type(inputValue, '304')
      userEvent.click(filterButton)
 
      const tatooine = await screen.findByText(/tatooine/i)
-     const alderaan = screen.getByText(/alderaan/i)
+     const alderaan = screen.queryByText(/alderaan/i)
 
      expect(tatooine).toBeInTheDocument()
-     expect(alderaan).not.toBeInTheDocument() 
-   });
+     expect(alderaan).toBeNull() 
+   }); 
+
+  //  test('6. Filter by Surface_water menor que', async () => {
+  //   jest.spyOn(global, 'fetch').mockImplementation(async () => {
+  //     return { json: async() => {
+  //       return testData;
+  //     } }
+  //   });
+
+  //    render(<App />)
+
+  //    const filterButton = await screen.findByTestId('button-filter')
+  //    const filterColumn = await screen.findByTestId('column-filter')
+  //    const filterComparison = await screen.findByTestId('comparison-filter')
+  //    const inputValue = await screen.findByTestId('value-filter');
+     
+  //    userEvent.selectOptions(filterColumn, 'surface_water')
+  //    userEvent.selectOptions(filterComparison, 'menor que')
+  //    userEvent.type(inputValue, '40')
+  //    userEvent.click(filterButton)
+
+  //    const tatooine = await screen.findByText(/tatooine/i)
+  //    const yavinIV = await screen.findByText(/yavin/i)
+  //    const dagobah = await screen.findByText(/dagobah/i)
+  //    const bespin = await screen.findByText(/bespin/i)
+  //    const endor = await screen.findByText(/endor/i)
+  //    const naboo = await screen.findByText(/naboo/i)
+
+  //    expect(tatooine).toBeInTheDocument()
+  //    expect(yavinIV).toBeInTheDocument()
+  //    expect(dagobah).toBeInTheDocument()
+  //    expect(bespin).toBeInTheDocument()
+  //    expect(endor).toBeInTheDocument()
+  //    expect(naboo).toBeInTheDocument()
+     
+  //  });    
   
 })

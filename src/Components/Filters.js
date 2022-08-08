@@ -42,6 +42,8 @@ function Filters() {
     });
   };
 
+  // console.log(filteringPlanets);
+
   useEffect(() => {
     filteringPlanets();
   }, [savedFilters]);
