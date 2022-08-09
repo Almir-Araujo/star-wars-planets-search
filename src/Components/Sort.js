@@ -64,7 +64,7 @@ function Sort() {
             onChange={ handleSort }
           />
         </label>
-        <label htmlFor="column-sort-input-asc">
+        <label htmlFor="column-sort-input-desc">
           Descendente
           <input
             type="radio"

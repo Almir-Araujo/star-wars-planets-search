@@ -42,8 +42,6 @@ function Filters() {
     });
   };
 
-  // console.log(filteringPlanets);
-
   useEffect(() => {
     filteringPlanets();
   }, [savedFilters]);
@@ -121,7 +119,7 @@ function Filters() {
           Filtrar
         </button>
       </form>
-      {!savedFilters ? '' : savedFilters
+      {savedFilters
         .map((filter, index) => (
           <div key={ index } data-testid="filter">
             <p>{`${filter.column} ${filter.comparison} ${filter.value}`}</p>

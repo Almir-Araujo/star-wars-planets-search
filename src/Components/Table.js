@@ -24,7 +24,7 @@ function PlanetsTable() {
         </tr>
       </thead>
       <tbody>
-        { !planets ? 'Loading...' : planets.map((planet) => (
+        { planets.map((planet) => (
           <tr key={ planet.name }>
             <td data-testid="planet-name">{planet.name}</td>
             <td>{planet.rotation_period}</td>

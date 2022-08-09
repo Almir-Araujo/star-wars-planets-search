@@ -43,6 +43,7 @@ function StarWarsPlanetsProvider({ children }) {
       }));
     };
     searchFilter();
+    console.log(searchFilter);
   }, [planetsInfo, searchInput]);
 
   // useEffect(() => {
